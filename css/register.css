@@ -1,0 +1,239 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #e5e4e7;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s;
+    z-index: 1001;
+}
+
+#successOverlay,
+#loadingOverlay {
+    z-index: 1002;
+}
+
+.finish-box {
+    background: white;
+    padding: 2vw;
+    width: 20vw;
+    border-radius: 1vw;
+    box-shadow: 0 0.4vw 1vw rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.finish-box p {
+    font-size: 1.5vw;
+    color: #333;
+    text-align: left;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+.overlay .buttons {
+    margin-top: 2vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.overlay button {
+    flex: 1;
+    margin: 0 0.5vw;
+    padding: 1vw;
+    font-size: 1vw;
+    border: none;
+    border-radius: 0.5vw;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.overlay .confirm-btn {
+    background: #4CAF50;
+    color: white;
+}
+
+.overlay .confirm-btn:hover {
+    background: #45a049;
+}
+
+.overlay .cancel-btn {
+    background: #f44336;
+    color: white;
+}
+
+.overlay .cancel-btn:hover {
+    background: #d32f2f;
+}
+
+.overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.overlay.active .finish-box {
+    transform: scale(1);
+}
+
+.loading-box {
+    background: white;
+    padding: 2vw;
+    border-radius: 1vw;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1vw;
+}
+
+
+.loading-spinner {
+    width: 4vw;
+    height: 4vw;
+    border: 1vw solid #ddd;
+    border-top-color: #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1vw;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.login {
+    margin: 2vw auto;
+    width: 45vw;
+    height: 45vw;
+    background-color: #ffffff;
+    border-radius: 1vw;
+}
+
+.login .error {
+    position: fixed;
+    color: red;
+    margin-left: 1vw;
+    font-size: 1vw;
+    width: 13vw;
+    height: 4vw;
+    line-height: 4vw;
+}
+
+.login .nav {
+    width: 100%;
+    height: 5vw;
+    border-bottom: 0.13vw solid rgba(243, 238, 238, 0.919);
+    line-height: 5vw;
+    text-align: center;
+    font-size: 2vw;
+    font-weight: 700;
+}
+
+.login .body div {
+    margin: 1vw 0 0 0;
+    height: 4vw;
+}
+
+.login .body input {
+    float: left;
+    font-size: 1vw;
+    border: 0;
+    display: block;
+    background-color: #f3f6f8;
+    width: 23vw;
+    height: 4vw;
+    border-radius: 1vw;
+    padding-left: 1vw;
+    transition: background-color 0.3s ease;
+}
+
+.login .body input:focus {
+    background-color: #e0e6eb;
+    outline: none;
+}
+
+.inputname,
+.inputpwd,
+.inputcode,
+.inputemail {
+    margin: 0 0 0 10vw;
+}
+
+.login .body button {
+    color: #ffffff;
+    margin: 1vw 0 1vw 10vw;
+    font-size: 1vw;
+    border: 0;
+    display: block;
+    background-color: #e98542;
+    width: 24vw;
+    height: 3vw;
+    border-radius: 1vw;
+    transition: background-color 0.3s ease;
+}
+
+.login .body button:hover {
+    background-color: #f1490c;
+}
+
+.login .foot {
+    margin: 3vw 10vw;
+    font-size: 1vw;
+    border: 0;
+    display: block;
+    width: 24vw;
+    height: 3vw;
+    border-radius: 1vw;
+    transition: background-color 0.3s ease;
+}
+
+.login .foot .register {
+    color: gray;
+    float: right;
+}
+
+.login .foot .managerlogin {
+    color: gray;
+}
+
+.login .foot .backindex {
+    color: gray;
+}
+
+.login .foot a:hover {
+    color: orange;
+}

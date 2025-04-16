@@ -1,0 +1,1079 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+select {
+    cursor: pointer;
+    appearance: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+button {
+    background-color: white;
+    border: 0;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+input {
+    appearance: none;
+    outline: none;
+}
+
+img {
+    height: 100%;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    /* ✅ 用 top+bottom 更稳 */
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s;
+    z-index: 1001;
+}
+
+#shopboxfinishOverlay,
+#productboxfinishOverlay {
+    z-index: 1002;
+}
+
+.finish-box {
+    position: fixed;
+    top: 40%;
+    left: 45%;
+    background: white;
+    padding: 2vw;
+    width: 20vw;
+    border-radius: 1vw;
+    box-shadow: 0 0.4vw 1vw rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.finish-box p {
+    font-size: 1.2vw;
+    color: #333;
+    text-align: left;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+.overlay .buttons {
+    margin-top: 2vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.overlay button {
+    flex: 1;
+    margin: 0 0.5vw;
+    padding: 1vw;
+    font-size: 1vw;
+    border: none;
+    border-radius: 0.5vw;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.overlay .confirm-btn {
+    background: #4CAF50;
+    color: white;
+}
+
+.overlay .confirm-btn:hover {
+    background: #45a049;
+}
+
+.overlay .cancel-btn {
+    background: #f44336;
+    color: white;
+}
+
+.overlay .cancel-btn:hover {
+    background: #d32f2f;
+}
+
+.overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.overlay.active .finish-box {
+    transform: scale(1);
+}
+
+.loading-box {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    background: white;
+    padding: 2vw;
+    border-radius: 1vw;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1vw;
+}
+
+
+.loading-spinner {
+    width: 4vw;
+    height: 4vw;
+    border: 1vw solid #ddd;
+    border-top-color: #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1vw;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.confirm-box {
+    font-size: 1vw;
+    position: fixed;
+    top: 40%;
+    left: 45%;
+    background: white;
+    padding: 1vw;
+    border-radius: 1vw;
+    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex-direction: column;
+    width: 25vw;
+}
+
+.confirm-box div {
+    margin-top: 1vh;
+}
+
+.confirm-box .shopemail {
+    font-size: 1.2vw;
+}
+
+.addshop-box {
+    font-size: 1vw;
+    position: fixed;
+    top: 20%;
+    left: 45%;
+    background: white;
+    padding: 1vw;
+    border-radius: 1vw;
+    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex-direction: column;
+    width: 25vw;
+}
+
+.addshop-box h2 {
+    margin-bottom: 3vh;
+}
+
+.addshop-box input {
+    font-size: 1.2vw;
+    width: 93%;
+    padding: 0.8vw;
+    margin: 1vh 0;
+    border: 0.2vw solid #ccc;
+    border-radius: 1vw;
+}
+
+.addshop-box .buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.addshop-box .buttons button {
+    width: 48%;
+    cursor: pointer;
+}
+
+.addshop-box select:focus {
+    border-color: #7c55ff;
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+}
+
+.addshop-box input:focus {
+    border-color: #7c55ff;
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+}
+
+.addproduct-box {
+    font-size: 1vw;
+    margin-top: 2vw;
+    position: fixed;
+    background: white;
+    padding: 1vw;
+    border-radius: 1vw;
+    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 30vw;
+}
+
+.addproduct-box .preview {
+    width: 100%;
+    height: 20vw;
+    border: 0.2vw dashed #ccc;
+    margin-bottom: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.addproduct-box .preview img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.addproduct-box input,
+.addproduct-box select {
+    font-size: 1vw;
+    width: 93%;
+    padding: 1vw;
+    margin-bottom: 1vh;
+    border: 0.2vw solid #ccc;
+    border-radius: 1vw;
+}
+
+.addproduct-box select {
+    width: 100%;
+}
+
+.addproduct-box select:focus {
+    border-color: #7c55ff;
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+}
+
+.addproduct-box input:focus {
+    border-color: #7c55ff;
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+}
+
+.addproduct-box .buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.addproduct-box .buttons button {
+    width: 48%;
+    cursor: pointer;
+}
+
+body {
+    width: 99vw;
+    height: 100%;
+    /* overflow-y: auto; */
+    display: flex;
+    justify-content: flex-start;
+    background-color: rgb(255, 255, 255);
+    /* position: absolute; */
+}
+
+/* 侧边栏容器 */
+.navbox {
+    position: fixed;
+    font-size: 1.2vw;
+    width: 15%;
+    height: 100vh;
+    background: linear-gradient(135deg, #f9f9f9, #e5e5e5);
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 2%;
+    box-shadow: 0.4vw 0 1vw rgba(0, 0, 0, 0.1);
+}
+
+/* 所有菜单项 */
+.navbox div {
+    margin: 1vw 0 0 1vw;
+    background: #f0f0f0;
+    text-align: center;
+    width: 85%;
+    height: auto !important;
+    aspect-ratio: 5/1 !important;
+    line-height: 2.5;
+    border-radius: 1vw;
+    transition: transform 0.3s ease;
+    font-weight: 600;
+    cursor: pointer;
+    color: #333;
+}
+
+.navbox div:hover {
+    background: #ddd;
+    transform: scale(1.1);
+}
+
+.navbox div.active {
+    background: linear-gradient(135deg, #6a5afc, #4a3bd5);
+    color: white;
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+    transform: scale(1.05);
+}
+
+.navbox div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shopchartbox,
+.shopbox,
+.chartbox,
+.oneproductbox,
+.orderbox,
+.cartbox,
+.productbox {
+    width: 0;
+    display: none;
+}
+
+.shopchartbox.active,
+.chartbox.active,
+.shopbox.active,
+.oneproductbox.active,
+.orderbox.active,
+.cartbox.active,
+.productbox.active {
+    position: relative;
+    left: 15%;
+    width: 85%;
+    height: 100%;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow-y: auto;
+    flex-direction: column;
+}
+
+.shopchartbox.active,
+.chartbox.active {
+    justify-content: center;
+    align-items: center;
+}
+
+.shopchartbox canvas,
+.chartbox canvas {
+    margin-top: 1vw;
+    width: 90% !important;
+    height: auto !important;
+    /* 高度自动调整 */
+    aspect-ratio: 2 / 1 !important;
+    /* 高度是宽度的 50% */
+}
+
+.oneproductbox .overlay,
+.orderbox .overlay,
+.cartbox .overlay,
+.productbox .overlay {
+    position: absolute;
+}
+
+
+.searchbox {
+    width: 95%;
+    margin: 2vw 2vw 0;
+    display: flex;
+    justify-content: flex-start;
+    gap: 1vw;
+    align-items: flex-start;
+}
+
+.change-message select,
+.change-message input {
+    border-radius: 0.5vw;
+    appearance: none;
+    outline: none;
+    padding: 0 0 0 1vw;
+    font-size: 1vw;
+    width: 50%;
+    height: 2vw;
+    border: 0.1vw solid rgb(149, 149, 149);
+}
+
+.change-message select {
+    width: 57%;
+}
+
+
+.products .product .change-message div {
+    padding: 0.23vw 0.5vw 0;
+}
+
+.searchbox select,
+.searchbox input {
+    border-radius: 0.5vw;
+    appearance: none;
+    outline: none;
+    padding: 0 0 0 1vw;
+    font-size: 1vw;
+    width: 30%;
+    height: 2vw;
+    border: 0.1vw solid rgb(149, 149, 149);
+    transition: width 0.3s, border-color 0.3s ease;
+}
+
+.searchbox select {
+    padding: 0;
+    text-align: center;
+    width: 8%;
+    height: 2.1vw;
+}
+
+.searchbox select:focus {
+    border-color: #7c55ff;
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+}
+
+.searchbox input:focus {
+    border-color: #7c55ff;
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+}
+
+.searchbox button {
+    font-weight: 700;
+    border-radius: 0.5vw;
+    border: 0.1vw solid rgb(149, 149, 149);
+    width: 8%;
+    font-size: 1vw;
+    height: 2vw;
+    transition: width 0.3s, border-color 0.3s ease, box-shadow 0.3s;
+}
+
+.searchbox button:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #6a5afc, #4a3bd5);
+    border-color: #7c55ff;
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+}
+
+.products {
+    margin: 2vw 1vw 2vw;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5vw;
+}
+
+.products .options {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.products .product .options button {
+    width: 30%;
+    padding: 0 0.5vw;
+}
+
+.products .product .options button.cancel {
+    width: 20%;
+}
+
+.products .product {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.2vw;
+    border-radius: 1vw;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.products .product:hover {
+    box-shadow: 0 0.4vw 1vw rgba(25, 25, 28, 0.5);
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.products .product img {
+    width: 90%;
+    margin: 0.5vw auto;
+    border-radius: 1vw;
+}
+
+.products .product .product-id {
+    padding-left: 1vw;
+}
+
+.products .product div {
+    font-size: 0.9vw;
+    color: gray;
+    padding: 0.5vw;
+}
+
+.products .product .product-name {
+    font-size: 1.1vw;
+    color: black;
+    font-weight: 700;
+}
+
+.products .product .price {
+    color: red;
+    font-size: 1.2vw;
+}
+
+.products .product .stock {
+    color: black;
+}
+
+.products .product button {
+    border-radius: 1vw;
+    font-size: 1vw;
+    margin: 1vw 0.3vw;
+    width: 50%;
+    height: 2vw;
+    color: white;
+    border: 700;
+    background: linear-gradient(135deg, #9489fd, #4a3bd5);
+    transition: box-shadow 0.3s;
+}
+
+.products .product button:hover {
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+}
+
+.cart .product-message,
+.carts,
+.cartshead,
+.cartsbody,
+.cartshop,
+.cartshophead,
+.cartshopbody,
+.cart,
+.orders,
+.ordershead,
+.ordersbody,
+.order,
+.orderhead,
+.orderbody,
+.orderbody .product-message {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1vw;
+    font-size: 1vw;
+    width: 100%;
+}
+
+.cartsbody {
+    gap: 2vw;
+    margin-bottom: 2vw;
+}
+
+.order,
+.cartshop {
+    background: linear-gradient(135deg, #ffffff, #f1eff9);
+}
+
+.cartshophead {
+    font-weight: 700;
+}
+
+.cartsbody,
+.carts {
+    background: linear-gradient(135deg, #ffffff, #edeafe);
+
+}
+
+.orders,
+.carts {
+    margin-top: 2vw;
+}
+
+.cartbox,
+.carts,
+.cartsbody,
+.cartshop,
+.orderbox,
+.orders,
+.cartshopbody,
+.ordersbody,
+.order {
+    flex-direction: column;
+}
+
+.order {
+    border-radius: 1vw;
+}
+
+.orderbox .searchbox label {
+    font-size: 1vw;
+    line-height: 2.1vw;
+    font-weight: 500;
+}
+
+.orderbox.active,
+.cartbox.active {
+    margin-left: 1vw;
+    width: 84%
+}
+
+.orderbody,
+.cart {
+    height: 10vw;
+}
+
+.orderhead {
+    padding-left: 1vw;
+    color: rgb(255, 255, 255);
+    border: 700;
+    background: linear-gradient(135deg, #beb7fc, #dee6fc);
+    width: 98%;
+    gap: 2vw
+}
+
+.cartshead,
+.cartsbody {
+    width: 98%;
+    margin-top: 0.5vw;
+}
+
+.ordershead,
+.orderhead,
+.cartshophead,
+.cartshead {
+    height: 2vw;
+}
+
+.orderbody div,
+.cart div,
+.cartshead div,
+.ordershead div {
+    width: 10%;
+    text-align: center;
+    height: 100%;
+    line-height: 2vw;
+}
+
+.orderbody div,
+.cart div {
+    line-height: 10vw;
+}
+
+.orderbody img,
+.cart img {
+    border-radius: 1vw;
+    transition: box-shadow 0.3s;
+}
+
+.orderbody img:hover {
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+    cursor: pointer;
+}
+
+.cart img:hover {
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+    cursor: pointer;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.cart input.count {
+    margin-left: 0.6vw;
+    width: 9%;
+    text-align: center;
+    border-radius: 0.5vw;
+    appearance: none;
+    height: 2vw;
+    font-size: 1vw;
+    outline: none;
+    border: 0.1vw solid rgb(149, 149, 149);
+}
+
+.cart .product-message,
+.cartshead .product-message {
+    height: 100%;
+    width: 50%;
+}
+
+.order .product-message,
+.ordershead .product-message {
+    margin-left: 0.5vw;
+    height: 100%;
+    width: 40%;
+}
+
+.order .product-message div {
+    width: 30%;
+}
+
+.cart .product-message div {
+    width: 20%;
+}
+
+
+
+.order button,
+.cart button {
+    border-radius: 2vw;
+    font-size: 1vw;
+    margin-left: 2.4vw;
+    width: 5%;
+    height: 2vw;
+    text-align: center;
+    color: white;
+    font-weight: 700;
+    background: linear-gradient(135deg, #9489fd, #4a3bd5);
+
+}
+
+.carts input.select {
+    appearance: none;
+    width: 2vw;
+    height: 2vw;
+    border: 0.2vw solid #6a5afc;
+    border-radius: 0.5vw;
+    position: relative;
+    cursor: pointer;
+}
+
+.carts input.selectshop {
+    border: 0.2vw solid #5340fe;
+    width: 1.8vw;
+    height: 1.8vw;
+}
+
+.carts input.selectproduct {
+    border: 0.2vw solid #321df7;
+    width: 1.8vw;
+    height: 1.8vw;
+}
+
+.carts input.select:checked {
+    background-color: #6a5afc;
+}
+
+.carts input.select:checked::before {
+    content: "✔";
+    color: white;
+    font-size: 1vw;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.usermessage,
+.checkout {
+    margin-left: auto;
+    width: 35%;
+    height: 2.2vw;
+    background: linear-gradient(135deg, #f9f9f9, #f3f2f8);
+    z-index: 100;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1vw;
+    font-size: 1vw;
+    font-weight: 700;
+}
+
+.usermessage {
+    justify-content: flex-end;
+    width: 25%;
+}
+
+button.addproduct {
+    height: 2.2vw;
+}
+
+.checkout button {
+    padding: 0 1vw;
+    height: 2.2vw;
+    font-size: 1vw;
+    margin-left: auto;
+    margin-right: 1.3vw;
+    background: linear-gradient(135deg, #9489fd, #4a3bd5);
+    color: #fff;
+    font-weight: 700;
+    width: 20%;
+}
+
+.switch-page {
+    padding: 1vw;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+    height: 3vw;
+    margin: 0 auto 1vw;
+
+}
+
+.switch-page button {
+    width: 3vw;
+    height: 3vw;
+    font-size: 1.2vw;
+    font-weight: 700;
+    border-radius: 1vw;
+    transition: background .3s ease, color .3s;
+}
+
+.switch-page button.next-page,
+.switch-page button.before-page {
+    width: 5vw;
+}
+
+.switch-page button:hover {
+    background: #4c40bd;
+    color: white;
+}
+
+
+.switch-page button.active {
+    background: linear-gradient(135deg, #9489fd, #4a3bd5);
+    color: white;
+}
+
+.shopchartboxhead,
+.oneproduct,
+.oneproducthead,
+.oneproductbody {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1vw;
+    font-size: 1vw;
+    width: 100%;
+}
+
+.shopchartboxhead,
+.oneproducthead {
+    margin-top: 1vw;
+    margin-left: 1vw;
+    width: 98%;
+}
+
+.shopchartboxhead {
+    height: 2vw;
+    line-height: 2vw;
+    font-weight: 700;
+    font-size: 1.5vw;
+}
+
+.oneproductbox {
+    margin-left: 0.5vw;
+    height: 100vh;
+}
+
+.oneproduct,
+.oneproducthead,
+.oneproductbodyright {
+    flex-direction: column;
+}
+
+.oneproducthead .shopname {
+    height: 6vh;
+    font-weight: 700;
+    margin-left: 0.5vw;
+    border-bottom: gray 0.2vw solid;
+    font-size: 1.6vw;
+    width: 98%;
+}
+
+.oneproductbodyleft,
+.oneproductbodyright {
+    margin-left: 1vw;
+    width: 35%;
+    height: 80vh;
+}
+
+.oneproductbodyright {
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+}
+
+.oneproductbodyleft img {
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: 1/1 !important;
+    border-radius: 1vw;
+}
+
+.oneproductbodyright div {
+    width: 100%;
+    height: 4vw;
+    line-height: 4vw;
+    font-size: 1.6vw;
+    color: gray;
+}
+
+.oneproductbodyright .pname {
+    font-weight: 700;
+    height: 10vw;
+    color: #333;
+}
+
+.oneproductbodyright .category {
+    font-weight: 700;
+    font-size: 1.1vw;
+    color: #333;
+}
+
+.oneproductbodyright .stock {
+    font-size: 1.1vw;
+}
+
+.oneproductbodyright .price {
+    font-weight: 700;
+    color: red;
+}
+
+.shopchartbox button,
+.oneproducthead button {
+    font-size: 1vw;
+    font-weight: 600;
+    color: white;
+    height: 2vw;
+    width: 5vw;
+    border-radius: 0.3vw;
+    background: linear-gradient(135deg, #9489fd, #4a3bd5);
+    transition: box-shadow 0.3s;
+}
+
+
+.shopchartbox button:hover {
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+}
+
+.oneproducthead button:hover {
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+}
+
+.oneproductbodyright button {
+    margin-top: 3vw;
+    font-size: 1.6vw;
+    font-weight: 600;
+    color: white;
+    height: 4vw;
+    width: 95%;
+    border-radius: 1vw;
+    background: linear-gradient(135deg, #9489fd, #4a3bd5);
+    transition: box-shadow 0.3s;
+}
+
+.oneproductbodyright button:hover {
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+}
+
+
+.shopbox .shops {
+    width: 100%;
+}
+
+.shopbox .shops .shopshead,
+.shopbox .shops .shopsbody,
+.shopbox .shops .shopsbody .shop {
+    font-size: 1vw;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1vw;
+    font-size: 1vw;
+    width: 98%;
+}
+
+.shopbox .shops .shopshead {
+    font-size: 1.5vw;
+    font-weight: 700;
+    margin: 1vw 0 1vw 1vw;
+    height: 5vh;
+    line-height: 5vh;
+}
+
+.shopbox .shops .shopshead div {
+    text-align: center;
+    width: 30%;
+}
+
+.shopbox .shops .shopshead .options {
+    width: 40%;
+}
+
+.shopbox .shops .shopsbody .shop {
+    border: rgb(178, 157, 255) 0.2vw solid;
+    border-radius: 1vw;
+    font-size: 1.1vw;
+    background: linear-gradient(135deg, #fdfdfd, #d2cefa);
+    width: 100%;
+    line-height: 10vh;
+    height: 10vh;
+}
+
+.shopbox .shops .shopsbody .shop div {
+    font-weight: 700;
+    text-align: center;
+    width: 30%;
+}
+
+.shopbox .shops .shopsbody .shop .options {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+}
+
+.shopbox .shops .shopsbody .shop .options button {
+    font-size: 1.1vw;
+    background: linear-gradient(135deg, #9489fd, #4a3bd5);
+    height: 5vh;
+    padding: 0 0.5vw;
+    color: white;
+    margin: 1vw;
+    border-radius: 1vw;
+    transition: box-shadow 0.3s;
+    font-weight: 700;
+}
+
+.shopbox .shops .shopsbody .shop .options button:hover {
+    box-shadow: 0 0.4vw 1vw rgba(106, 90, 252, 0.5);
+}
+
+.shopbox .shops .shopsbody {
+    margin-left: 1vw;
+    flex-direction: column;
+}
