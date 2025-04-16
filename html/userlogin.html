@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+    <div class="login">
+        <div class="nav">
+            <span>用户登录</span>
+        </div>
+        <div class="body">
+            <div>
+                <input type="text" class="inputemail" placeholder="请输入QQ邮箱"></input>
+            </div>
+            <div>
+                <input type="password" class="inputpwd" placeholder="请输入登录密码" autocomplete="new-password"></input>
+                <div class="error"></div>
+            </div>
+            <button class="loginbutton" onclick="userlogin(event)">登录</button>
+        </div>
+        <div class="foot">
+            <a href="managerlogin.html" class="managerlogin">管理员登录</a> |
+            <a href="shoplogin.html" class="shoplogin">商家登录</a> |
+            <a href="register.html" class="register">免费注册</a>
+            <a href="index.html" class="backindex">返回主页</a>
+        </div>
+    </div>
+</body>
+<script>
+    //用户登录
+    function userlogin(event) {
+        event.preventDefault()
+        const email = document.querySelector('.inputemail').value
+        const pwd = document.querySelector('.inputpwd').value
+        fetch('/Userlogin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Email: email,
+                Password: pwd
+            })
+        })
+            .then(response => response.json())
+            .then(res => {
+                if (!res.success || !res.data) {
+                    document.querySelector('.error').innerText = '邮箱或者密码错误'
+                    return
+                }
+                let userParams = new URLSearchParams({ who: 'user', name: res.data.uname, email: email }).toString()
+                window.location.replace(`http://localhost?${userParams}`)
+            })
+            .catch(error => {
+                console.error('登录请求失败:', error)
+                document.querySelector('.error').innerText = '登录繁忙，请稍后再试'
+            })
+    }
+</script>
+
+</html>

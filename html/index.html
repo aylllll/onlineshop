@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <div class="overlay " id="loadingOverlay">
+        <div class="loading-box">
+            <div class="loading-spinner"></div>
+            <p>正在加载，请稍候...</p>
+        </div>
+    </div>
+    <div class="overlay" id="finishOverlay">
+        <div class="finish-box">
+            <p>操作成功！</p>
+            <div class="buttons">
+                <button class="confirm-btn" onclick="closeModal('finishOverlay')">确定</button>
+            </div>
+        </div>
+    </div>
+    <div class="navbox">
+        <div class="login" onclick="window.open(`http://localhost/userlogin.html`, '_blank')">登录</div>
+        <div class="register" onclick="window.open(`http://localhost/register.html`, '_blank')">注册</div>
+        <div class="goproductbox active">商品浏览</div>
+        <div class="gocartbox" style="display: none;">我的购物车</div>
+        <div class="goorderbox" style="display: none;">我的订单</div>
+        <div class="logout" style="display: none;">退出登录</div>
+    </div>
+    <div class="productbox active" id="goproductbox">
+        <div class="productboxtop"></div>
+        <div class="overlay " id="productboxloadingOverlay">
+            <div class="loading-box">
+                <div class="loading-spinner"></div>
+                <p>正在加载，请稍候...</p>
+            </div>
+        </div>
+        <div class="searchbox">
+            <select class="select-input" onchange="searchboxshowselectcategory(this,value)">
+                <option value="pname">商品名称</option>
+                <option value="shop">店铺</option>
+            </select>
+            <input type="text" placeholder="请输入商品名称">
+            <select class="select-category" name="category">
+                <option value="全部">全部</option>
+                <option value="电子产品">电子产品</option>
+                <option value="服装">服装</option>
+                <option value="生活用品">生活用品</option>
+                <option value="饮食">饮食</option>
+            </select>
+            <button>点击搜索</button>
+            <div class="usermessage">
+                <div class="username">
+                </div>
+                <div class="usermoney">
+                </div>
+            </div>
+        </div>
+        <div class="products">
+        </div>
+        <div class="switch-page">
+            <button class="before-page">上一页</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="next-page">下一页</button>
+        </div>
+    </div>
+    <div class="cartbox " id="gocartbox">
+        <div class="overlay" id="cartboxloadingOverlay">
+            <div class="loading-box">
+                <div class="loading-spinner"></div>
+                <p>正在加载，请稍候...</p>
+            </div>
+        </div>
+        <div class="overlay" id="cartboxfinishOverlay">
+            <div class="finish-box">
+                <p>操作成功！</p>
+                <div class="buttons">
+                    <button class="confirm-btn" onclick="closeModal('cartboxfinishOverlay')">确定</button>
+                </div>
+            </div>
+        </div>
+        <div class="searchbox">
+            <select class="select-input" onchange="searchboxshowselectcategory(this,value)">
+                <option value="pname">商品名称</option>
+                <option value="shop">店铺</option>
+            </select>
+            <input type="text" placeholder="请输入商品名称">
+            <select class="select-category" name="category">
+                <option value="全部">全部</option>
+                <option value="电子产品">电子产品</option>
+                <option value="服装">服装</option>
+                <option value="生活用品">生活用品</option>
+                <option value="饮食">饮食</option>
+            </select>
+            <button class="searchbutton">点击搜索</button>
+            <div class="checkout">
+                <div class="totalcount">已选：0件</div>
+                <div class="totalmoney">共计：0.00</div>
+                <button class="checkoutbutton">结算</button>
+            </div>
+        </div>
+        <div class="carts">
+            <div class="cartshead">
+                <input type="checkbox" class="select selectall"></input>
+                <div class="product-message">商品信息</div>
+                <div>单价</div>
+                <div>数量</div>
+                <div>小计</div>
+                <div>操作</div>
+            </div>
+            <div class="cartsbody"></div>
+        </div>
+    </div>
+    <div class="orderbox " id="goorderbox">
+        <div class="orderboxtop"></div>
+        <div class="overlay " id="orderboxloadingOverlay">
+            <div class="loading-box">
+                <div class="loading-spinner"></div>
+                <p>正在加载，请稍候...</p>
+            </div>
+        </div>
+        <div class="overlay" id="orderboxfinishOverlay">
+            <div class="finish-box">
+                <p>操作成功！</p>
+                <div class="buttons">
+                    <button class="confirm-btn" onclick="closeModal('orderboxfinishOverlay')">确定</button>
+                </div>
+            </div>
+        </div>
+        <div class="searchbox">
+            <select class="select-input" onchange="searchboxshowselectcategory(this,value)">
+                <option value="orderid">订单编号</option>
+                <option value="pname">商品名称</option>
+                <option value="shop">店铺</option>
+            </select>
+            <input type="text" placeholder="请输入订单编号">
+            <select class="select-category" name="category" style="display: none;">
+                <option value="全部">全部</option>
+                <option value="电子产品">电子产品</option>
+                <option value="服装">服装</option>
+                <option value="生活用品">生活用品</option>
+                <option value="饮食">饮食</option>
+            </select>
+            <button>点击搜索</button>
+            <label for="select-status">物流状态:</label>
+            <select class="select-status" id="select-status">
+                <option value="全部">全部</option>
+                <option value="1">订单已完成</option>
+                <option value="0">未发货</option>
+            </select>
+
+        </div>
+        <div class="orders">
+            <div class="ordershead">
+                <div class="product-message">商品信息</div>
+                <div>单价</div>
+                <div>数量</div>
+                <div>实付</div>
+                <div>状态</div>
+                <div>操作</div>
+            </div>
+            <div class="ordersbody">
+            </div>
+        </div>
+        <div class="switch-page">
+            <button class="before-page">上一页</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="next-page">下一页</button>
+        </div>
+    </div>
+    <div class="oneproductbox " id="oneproductbox">
+        <div class="overlay" id="oneproductboxloadingOverlay">
+            <div class="loading-box">
+                <div class="loading-spinner"></div>
+                <p>正在加载，请稍候...</p>
+            </div>
+        </div>
+        <div class="overlay" id="oneproductboxfinishOverlay">
+            <div class="finish-box">
+                <p>操作成功！</p>
+                <div class="buttons">
+                    <button class="confirm-btn" onclick="closeModal('oneproductboxfinishOverlay')">确定</button>
+                </div>
+            </div>
+        </div>
+        <div class="oneproduct">
+            <div class="oneproducthead">
+                <button>返回</button>
+                <div class="shopname">该商品已失效</div>
+            </div>
+            <div class="oneproductbody">
+                <div class="oneproductbodyleft">
+                    <img src="../images/1.jpg" alt="该商品已失效">
+                </div>
+                <div class="oneproductbodyright">
+                    <div class="pname">该商品已失效</div>
+                    <div class="price">该商品已失效</div>
+                    <div class="category">该商品已失效</div>
+                    <div class="stock">该商品已失效</div>
+                    <button class="addcart" disabled="true">该商品已失效</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../userindex.js"></script>
+<script> userindexfunction() </script>
+
+</html>

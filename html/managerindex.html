@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员主页</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+
+<body>
+    <div class="navbox">
+        <div class="goshopbox active">商家管理</div>
+        <div class="gochartbox">查看销售图</div>
+        <div class="logout">退出登录</div>
+    </div>
+    <div class="shopbox active" id="goshopbox">
+        <div class="shopboxtop"></div>
+        <div class="overlay" id="shopboxloadingOverlay">
+            <div class="loading-box">
+                <div class="loading-spinner"></div>
+                <p>正在加载，请稍候...</p>
+            </div>
+        </div>
+        <div class="overlay" id="shopboxfinishOverlay">
+            <div class="finish-box">
+                <p>操作成功！</p>
+                <div class="buttons">
+                    <button class="confirm-btn" onclick="closeModal('shopboxfinishOverlay')">确定</button>
+                </div>
+            </div>
+        </div>
+        <div class="overlay" id="shopboxaddshopOverlay">
+            <div class="addshop-box">
+                <h2>添加商家</h2>
+                商家名称<input type="text" class="shopname" placeholder="请输入商家名称">
+                商家QQ邮箱<input type="text" class="shopemail" placeholder="请输入商家QQ邮箱">
+                密码<input type="text" class="shoppwd" placeholder="请输入密码">
+                <div class="buttons">
+                    <button class="confirm-btn">确定</button>
+                    <button class="cancel-btn" onclick="resetaddshopbox()">取消</button>
+                </div>
+            </div>
+        </div>
+        <div class="overlay" id="shopboxconfirmOverlay">
+            <div class="confirm-box">
+                <h2></h2>
+                <div class="shopemail">商家邮箱：2501995333@qq.com</div>
+                <div class="buttons">
+                    <button class="confirm-btn">确定</button>
+                    <button class="cancel-btn" onclick="closeModal('shopboxconfirmOverlay')">取消</button>
+                </div>
+            </div>
+        </div>
+        <div class="searchbox">
+            <select class="select-input" onchange="searchboxshowselectcategory(this,value)">
+                <option value="shopname">商家名称</option>
+                <option value="shopemail">商家邮箱</option>
+            </select>
+            <input type="text" placeholder="请输入商家名称">
+            <button class="searchbutton">点击搜索</button>
+            <div class="usermessage">
+                <div class="username">
+                </div>
+            </div>
+            <button class="addproduct" onclick="openModal('shopboxaddshopOverlay')">添加商家</button>
+        </div>
+        <div class="shops">
+            <div class="shopshead">
+                <div class="shopname">商家名称</div>
+                <div class="shopemail">商家邮箱</div>
+                <div class="options">操作</div>
+            </div>
+            <div class="shopsbody">
+            </div>
+        </div>
+        <div class="switch-page">
+            <button class="before-page">上一页</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="next-page">下一页</button>
+        </div>
+    </div>
+    <div class="chartbox" id="gochartbox">
+        <canvas class="categoryChart"></canvas>
+        <canvas class="sevendayChart"></canvas>
+        <canvas class="productChart"></canvas>
+    </div>
+    <div class="shopchartbox " id="goshopchartbox">
+        <div class="shopchartboxhead">
+            <button>返回</button>
+            <div class="shopemail"></div>
+            <div class="shopname"></div>
+        </div>
+        <canvas class="categoryChart"></canvas>
+        <canvas class="sevendayChart"></canvas>
+        <canvas class="productChart"></canvas>
+    </div>
+</body>
+<script src="../managerindex.js"></script>
+<script>managerindexfunction()</script>
+
+</html>

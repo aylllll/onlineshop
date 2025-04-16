@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册</title>
+    <link rel="stylesheet" href="../css/register.css">
+</head>
+
+<body>
+    <div class="overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="loading-spinner"></div>
+            <p>正在加载，请稍候...</p>
+        </div>
+    </div>
+    <div class="overlay" id="finishOverlay">
+        <div class="finish-box">
+            <p>操作成功！</p>
+            <div class="buttons">
+                <button class="confirm-btn" onclick="closeModal('finishOverlay')">确定</button>
+            </div>
+        </div>
+    </div>
+    <div class="login">
+        <div class="nav">
+            <span>用户注册</span>
+        </div>
+        <div class="body">
+            <div>
+                <input type="text" class="inputname" placeholder="输入昵称" oninput="nameInput()"
+                    onblur="nameInput()"></input>
+                <span class="error nameError"></span>
+            </div>
+            <div>
+                <input type="text" class="inputemail" placeholder="输入QQ邮箱" oninput="EmailInput()"
+                    onblur="EmailInput()"></input>
+                <span class="error emailError"></span>
+
+            </div>
+            <div>
+                <input type="password" class="inputpwd" placeholder="输入密码" oninput="PasswordInput() "
+                    autocomplete="new-password" onblur="PasswordInput()"></input>
+                <span class="error passwordError"></span>
+
+            </div>
+            <div>
+                <input type="password" class="inputpwd again" placeholder="再次输入密码" oninput="ConfirmPasswordInput()"
+                    onblur="ConfirmPasswordInput()"></input>
+                <span class="error confirmPasswordError"></span>
+
+            </div>
+            <div>
+                <input type="text" class="inputcode" placeholder="输入验证码"></input>
+                <span class="error codeError"></span>
+
+            </div>
+            <button class="sendcode" onclick="sendCode(this)">发送验证码</button>
+            <button class="loginbutton" onclick="submitForm(event)">注册</button>
+        </div>
+        <div class="foot">
+            <a href="userlogin.html" class="managerlogin">用户登录 | </a>
+            <a href="index.html" class="backindex">返回主页</a>
+        </div>
+    </div>
+</body>
+<script>
+
+    //----------------------用户注册-----------------------------
+    // 验证昵称非空
+    function nameInput() {
+        const name = document.querySelector('.inputname').value
+        const nameError = document.querySelector('.nameError')
+        if (name.length == 0 || name.length > 7) {
+            nameError.textContent = '昵称长度为1-7位'
+        } else {
+            nameError.textContent = ''
+        }
+    }
+    // 验证邮箱格式
+    function EmailInput() {
+        const email = document.querySelector('.inputemail').value
+        const emailError = document.querySelector('.emailError')
+        const emailRegex = /^[1-9][0-9]{4,10}@qq\.com$/
+        if (!emailRegex.test(email)) {
+            emailError.textContent = '请输入正确的邮箱'
+        } else {
+            emailError.textContent = ''
+        }
+    }
+    // 验证密码长度
+    function PasswordInput() {
+        const password = document.querySelector('.inputpwd').value
+        const passwordError = document.querySelector('.passwordError')
+        ConfirmPasswordInput()
+        if (password.length < 6 || password.length > 18) {
+            passwordError.textContent = '密码应在6-18位'
+        } else {
+            passwordError.textContent = ''
+        }
+    }
+    // 验证确认密码是否一致
+    function ConfirmPasswordInput() {
+        const password = document.querySelector('.inputpwd').value
+        const confirmPassword = document.querySelector('.inputpwd.again').value
+        const confirmPasswordError = document.querySelector(".confirmPasswordError")
+        if (confirmPassword !== password) {
+            confirmPasswordError.textContent = '请输入相同的密码'
+        } else {
+            confirmPasswordError.textContent = ''
+        }
+    }
+    //验证码是否正确
+    let randomCode = 0
+    function CodeInput(Code) {
+        const code = document.querySelector('.inputcode').value
+        const codeError = document.querySelector('.codeError')
+
+        if (code != Code || !code) {
+            codeError.textContent = '验证码错误'
+            return true
+        } else {
+            codeError.textContent = ''
+        }
+    }
+    //点击发送验证码
+    function sendCode(button) {
+        //验证邮箱是否正确
+        EmailInput()
+        //验证邮箱是否已被使用
+        isEmailUsed().then(EmailUsed => {
+            if (EmailUsed) {
+                const emailError = document.querySelector('.emailError')
+                emailError.textContent = "该邮箱已被使用"
+            }
+            else {
+                PasswordInput()
+                ConfirmPasswordInput()
+                nameInput()
+                const emailError = document.querySelector('.emailError').textContent
+                const passwordError = document.querySelector('.passwordError').textContent
+                const confirmPasswordError = document.querySelector('.confirmPasswordError').textContent
+                const nameError = document.querySelector('.nameError').textContent;
+                // 没错就发验证码
+                if (!emailError && !passwordError && !confirmPasswordError && !nameError) {
+                    const email = document.querySelector('.inputemail').value;
+                    let clicktime = 30
+                    button.disabled = true
+                    button.innerHTML = `${clicktime}后可再次发送验证码`
+                    let clicktimeinterval = setInterval(function () {
+                        clicktime--
+                        button.innerHTML = `${clicktime}s后可再次发送验证码`
+                        if (clicktime <= 0) {
+                            clearInterval(clicktimeinterval)
+                            button.disabled = false
+                            button.innerHTML = `发送验证码`
+                        }
+                    }, 1000)
+                    const message = document.querySelector('#finishOverlay p')
+                    fetch('/sendcode', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email: email })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+
+                            openModal('finishOverlay')
+                            if (data.success) {
+                                randomCode = data.Code
+                                message.innerText = '验证码已发送至您的邮箱'
+                                console.log(randomCode)
+                            } else {
+                                message.innerText = '发送验证码失败，请稍后再试！'
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error)
+                            message.innerText = '发送验证码失败，请稍后再试！'
+                        })
+                }
+            }
+        })
+    }
+    //点击发送验证码时验证邮箱是否已被使用
+    async function isEmailUsed() {
+        const email = document.querySelector('.inputemail').value
+        try {
+            const response = await fetch('/isEmailUsed', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email
+                })
+            })
+            const res = await response.json()
+            if (res.success) {
+                // 该邮箱已被使用
+                return true
+            } else {
+                // 该邮箱未被使用
+                return false
+            }
+        } catch (error) {
+            console.error('Error:', error)
+            return false
+        }
+    }
+    function submitForm(event) {
+        event.preventDefault()
+        EmailInput()
+        PasswordInput()
+        ConfirmPasswordInput()
+        nameInput()
+        CodeInput(randomCode)
+        const emailError = document.querySelector('.emailError').textContent;
+        const passwordError = document.querySelector('.passwordError').textContent;
+        const confirmPasswordError = document.querySelector('.confirmPasswordError').textContent;
+        const nameError = document.querySelector('.nameError').textContent;
+        const codeError = document.querySelector('.codeError').textContent;
+        if (!emailError && !passwordError && !confirmPasswordError && !nameError && !codeError) {
+            isEmailUsed().then(EmailUsed => {
+                if (EmailUsed) {
+                    const emailError = document.querySelector('.emailError')
+                    emailError.textContent = "该邮箱已被使用"
+                }
+                else {
+                    insertUseraccountToDataBase()
+                }
+            })
+        }
+    }
+    //提交表单后信息无误后将该用户信息插入到数据库
+    function insertUseraccountToDataBase() {
+        const email = document.querySelector('.inputemail').value
+        const password = document.querySelector('.inputpwd.again').value
+        const name = document.querySelector('.inputname').value
+        const message = document.querySelector('#finishOverlay p')
+        const loadingOverlay = document.querySelector('#loadingOverlay p')
+        fetch('/Userregister', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+                name: name
+            })
+        })
+            .then(response => response.json())
+            .then(res => {
+                if (res.success) {
+                    // 登录成功，跳转到登录页
+                    loadingOverlay.innerText = '注册成功，正在返回登录页面'
+                    openModal('loadingOverlay')
+
+                    setTimeout(() => {
+                        closeModal('loadingOverlay')
+                        window.location.replace('http://localhost/userlogin.html')
+                    }, 2000)
+                }
+                else {
+                    // 登录失败，显示错误信息
+                    message.innerText = '注册失败！'
+                    openModal('finishOverlay')
+                }
+            })
+    }
+    function openModal(id) {
+        document.getElementById(id).classList.add("active")
+    }
+    function closeModal(id) {
+        document.getElementById(id).classList.remove("active")
+    }
+    function finishLoading() {
+        closeModal("loadingOverlay") // 关闭加载层
+        openModal("successOverlay")// 显示成功提示框
+    }
+</script>
+
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家管理页</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- 引入 Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script> <!-- 引入 chartjs-plugin-->
+</head>
+
+<body>
+    <div class="navbox">
+        <div class="goproductbox active">我的商品</div>
+        <div class="goorderbox ">查看订单</div>
+        <div class="gochartbox">查看销售图</div>
+        <div class="logout">退出登录</div>
+    </div>
+    <div class="productbox active" id="goproductbox">
+        <div class="productboxtop"></div>
+        <div class="overlay" id="productboxloadingOverlay">
+            <div class="loading-box">
+                <div class="loading-spinner"></div>
+                <p>正在加载，请稍候...</p>
+            </div>
+        </div>
+        <div class="overlay" id="productboxfinishOverlay">
+            <div class="finish-box">
+                <p>操作成功！</p>
+                <div class="buttons">
+                    <button class="confirm-btn" onclick="closeModal('productboxfinishOverlay')">确定</button>
+                </div>
+            </div>
+        </div>
+        <div class="overlay " id="productboxaddproductOverlay">
+            <div class="addproduct-box">
+                <div class="preview">点击上传图片</div>
+                <input type="file" class="imageUpload" accept="image/*" hidden>
+                <input type="text" class="productName" placeholder="商品名称">
+                <input type="number" class="productPrice" placeholder="商品价格" value="" min="0">
+                <input type="number" class="productStock" placeholder="商品库存" value="" min="0">
+                <select class="productCategory">
+                    <option value="电子产品">电子产品</option>
+                    <option value="服装">服装</option>
+                    <option value="生活用品">生活用品</option>
+                    <option value="饮食">饮食</option>
+                </select>
+                <div class="buttons">
+                    <button class="confirm-btn">完成</button>
+                    <button class="cancel-btn ">取消</button>
+                </div>
+            </div>
+        </div>
+        <div class="searchbox">
+            <select class="select-input" onchange="searchboxshowselectcategory(this,value)">
+                <option value="pname">商品名称</option>
+            </select>
+            <input type="text" placeholder="请输入商品名称">
+            <select class="select-category" name="category">
+                <option value="全部">全部</option>
+                <option value="电子产品">电子产品</option>
+                <option value="服装">服装</option>
+                <option value="生活用品">生活用品</option>
+                <option value="饮食">饮食</option>
+            </select>
+            <button class="searchbutton">点击搜索</button>
+
+            <div class="usermessage">
+                <div class="username">
+                </div>
+            </div>
+            <button class="addproduct">添加商品</button>
+        </div>
+        <div class="products ">
+        </div>
+        <div class="switch-page">
+            <button class="before-page">上一页</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="next-page">下一页</button>
+        </div>
+    </div>
+    <div class="orderbox " id="goorderbox">
+        <div class="orderboxtop"></div>
+        <div class="overlay" id="orderboxloadingOverlay">
+            <div class="loading-box">
+                <div class="loading-spinner"></div>
+                <p>正在加载，请稍候...</p>
+            </div>
+        </div>
+        <div class="overlay" id="orderboxfinishOverlay">
+            <div class="finish-box">
+                <p>操作成功！</p>
+                <div class="buttons">
+                    <button class="confirm-btn" onclick="closeModal('orderboxfinishOverlay')">确定</button>
+                </div>
+            </div>
+        </div>
+        <div class="searchbox">
+            <select class="select-input" onchange="searchboxshowselectcategory(this,value)">
+                <option value="orderid">订单编号</option>
+                <option value="pname">商品名称</option>
+                <option value="useremail">用户邮箱</option>
+            </select>
+            <input type="text" placeholder="请输入订单编号">
+            <select class="select-category" name="category" style="display: none;">
+                <option value="全部">全部</option>
+                <option value="电子产品">电子产品</option>
+                <option value="服装">服装</option>
+                <option value="生活用品">生活用品</option>
+                <option value="饮食">饮食</option>
+            </select>
+            <button>点击搜索</button>
+            <label for="select-status">物流状态:</label>
+            <select class="select-status" id="select-status">
+                <option value="全部">全部</option>
+                <option value="1">订单已完成</option>
+                <option value="0">未发货</option>
+            </select>
+        </div>
+        <div class="orders">
+            <div class="ordershead">
+                <div class="product-message">商品信息</div>
+                <div>单价</div>
+                <div>数量</div>
+                <div>实付</div>
+                <div>状态</div>
+                <div>操作</div>
+            </div>
+            <div class="ordersbody">
+            </div>
+        </div>
+        <div class="switch-page">
+            <button class="before-page">上一页</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="next-page">下一页</button>
+        </div>
+    </div>
+    <div class="chartbox" id="gochartbox">
+        <canvas class="categoryChart"></canvas>
+        <canvas class="sevendayChart"></canvas>
+        <canvas class="productChart"></canvas>
+    </div>
+</body>
+<script src="../shopindex.js"></script>
+<script>shopindexfunction()</script>
+
+</html>
