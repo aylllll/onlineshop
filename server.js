@@ -643,12 +643,12 @@ app.post('/isEmailUsed', async (req, res) => {
 })
 // 创建邮件发送者 1
 let transporter = nodemailer.createTransport({
-    host: 'smtp.qq.com',  // QQ 邮箱的 SMTP 地址
-    port: 465,            // QQ 邮箱的 SMTP 端口（SSL 端口）
-    secure: true,         // 使用 SSL
+    host: 'smtp.qq.com',
+    port: 465,           
+    secure: true,   
     auth: {
-        user: '2291417732@qq.com',   // 你的 QQ 邮箱地址
-        pass: 'sxevyciygmsmdjeb',  // QQ 邮箱的授权码
+        user: '',   
+        pass: '',  
     }
 })
 // 生成6位随机验证码 1
@@ -658,10 +658,10 @@ function GCode() {
 // 发送验证码邮件的函数 1
 function sendEmail(Email, code) {
     let mailOptions = {
-        from: '2291417732@qq.com',  // 发送者邮箱
-        to: Email,         // 接收者邮箱
-        subject: '注册验证码',        // 邮件标题
-        text: `您的验证码是: ${code}`, // 邮件内容
+        from: '', 
+        to: Email,        
+        subject: '注册验证码',        
+        text: `您的验证码是: ${code}`,
     }
     transporter.sendMail(mailOptions, (error) => {
         if (error) {
@@ -1752,10 +1752,10 @@ app.post('/addproduct', async (req, res) => {
 // 发送订单邮件的函数 1
 function sendOrderEmail(recipientEmail, sendEmailType) {
     let mailOptions = {
-        from: '2291417732@qq.com',  // 发送者邮箱
-        to: recipientEmail,         // 接收者邮箱
-        subject: '订单发货通知',        // 邮件标题
-        text: sendEmailType, // 邮件内容
+        from: '', 
+        to: recipientEmail,  
+        subject: '订单发货通知',  
+        text: sendEmailType,
     }
     transporter.sendMail(mailOptions)
 }
